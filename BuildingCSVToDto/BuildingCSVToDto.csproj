@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="CryptoVillages.Common">
+        <HintPath>..\..\..\Downloads\CryptoVillages.Common.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CsvHelper" Version="28.0.1" />
+      <PackageReference Include="LinqToCsv" Version="1.5.0" />
+    </ItemGroup>
+
+</Project>
