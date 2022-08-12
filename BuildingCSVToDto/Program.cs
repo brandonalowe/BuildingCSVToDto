@@ -6,6 +6,7 @@ using System.Linq;
 using CsvHelper;
 using CryptoVillages.Common;
 using CsvHelper.Configuration;
+using Newtonsoft.Json;
 
 namespace BuildingCSVtoDto
 {
@@ -18,7 +19,8 @@ namespace BuildingCSVtoDto
             
             // Set up csv read
             var file = "building-purchases.csv";
-            using var streamReader = new StreamReader($"/home/jaan/RiderProjects/BuildingCSVToDto/BuildingCSVToDto/{file}"); // insert csv dir here yeah?!
+            var path = "/home/jaan/RiderProjects/BuildingCSVToDto/BuildingCSVToDto/";
+            using var streamReader = new StreamReader($"{path}{file}"); // insert csv dir here yeah?!
             using var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture);
             csvReader.Context.RegisterClassMap<BuildingDtoClassMap>();
             var buildingValue = csvReader.GetRecords<BuildingValues>();
@@ -44,13 +46,13 @@ namespace BuildingCSVtoDto
                     case "500":
                         temp.BuildingType = CommonCvTypes.BuildingType.TradingPost;
                         break;
-                    case "1,250":
+                    case "1250":
                         temp.BuildingType = CommonCvTypes.BuildingType.Bazaar;
                         break;
-                    case "2,500":
+                    case "2500":
                         temp.BuildingType = CommonCvTypes.BuildingType.Bank;
                         break;
-                    case "5,000":
+                    case "5000":
                         temp.BuildingType = CommonCvTypes.BuildingType.Castle;
                         break;
                     default:
@@ -63,6 +65,9 @@ namespace BuildingCSVtoDto
             {
                 buildingList.Remove(badTx);
             }
+
+            var outputOfJsonConvert = JsonConvert.SerializeObject(buildingList, Formatting.Indented);
+            File.WriteAllText($"{path}building-list.json", outputOfJsonConvert);
         }
         // Insert header names here for value mapping ease -- idk what mitch's csv looks like
         public class BuildingDtoClassMap : ClassMap<BuildingValues>
